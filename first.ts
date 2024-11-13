@@ -34,7 +34,6 @@
 //   error;
 // }
 
-//
 // const head: Element = document.querySelector("#head");
 
 // const head = document.querySelector("#head");
@@ -150,7 +149,6 @@
 // 선언할때마다 합쳐짐
 // 대부분 타입이 아니라 interface를 쓴 다 다른 사람의 인터페이스를 확장할 수 있습니다.
 // 그래서 인터페이스를 기반으로 남의 라이브러리 코드를 수정한다
-
 // interface A {
 //   talk: () => void;
 // }
@@ -185,15 +183,239 @@
 
 // type AB = A | B;
 
-// // // type C = { name: string; age: number };
+// type C = { name: string; age: number };
 // type C = A & B;
 
-// // const ab: AB = { name: "zerocho" };
+// const ab: AB = { name: "zerocho" };
 
 // const obj = { name: "zerocho", age: 29, married: false };
 
-// // const c: C = { name: "zerocho", age: 29, married: false }; // 잉여 속성 검사라는 새로운 특성이 생겨서 안되는거다
+// const c: C = { name: "zerocho", age: 29, married: false }; // 잉여 속성 검사라는 새로운 특성이 생겨서 안되는거다
 
-// // const c: C = obj;  // 이렇게 데이터를 빼주면 중간에 이런식으로 변수 빼주기만 해도 바로 에러가 사라져 버립니다.
+// const c: C = obj;  // 이렇게 데이터를 빼주면 중간에 이런식으로 변수 빼주기만 해도 바로 에러가 사라져 버립니다.
 
-// // const c: C = ab; // 대입 안됌
+// const c: C = ab; // 대입 안됌
+
+// void의 두 가지 사용법
+// type B = { a: string };
+// type B = { b: string };
+
+// const obj2: B = { a: "hello", b: "world" };
+
+// function a(): void {
+//   return undefined;
+// }
+
+// const b = a();
+
+// interface Human {
+//   talk: () => void;
+// }
+
+// const human: Human = {
+//   talk() {
+//     return "abc";
+//   },
+// };
+
+// 바디없이 선언 가능하나 실제 구현부를 만들어줘야 하는데, 구현부를 만들기 싫을 때 declare, javascript로 변환할 때 사라짐
+// declare function forEach(arr: number[], callback: (el: number) => undefined): void;
+
+// let target: number[] = [];
+// push의 return 값은 number인데 undefined와 number는 다르기 때문에 에러가 나는 것
+// forEach([1, 2, 3], (el) => target.push(el));
+
+// 아래 코드에서 callback: (el: number) => undefined) 이부분을 아래와 같이 number로 수정하면,
+// declare function forEach(arr: number[], callback: (el: number) => number): void;
+// target.push(el) 이부분에서 에러가 나지 않음
+// forEach([1, 2, 3], (el) => target.push(el));
+
+// declare function forEach(arr: number[], callback: (el: number) => undefined): void;
+// 위의 callback: (el: number) => void 이부분을 void로 선언해도 에러가 나지 않음
+// 이유는 매개변수로 넘기는 void는 return 값을 상관하지 않겠다를 보여주는 부분
+// forEach([1, 2, 3], (el) => {
+//   target.push(el);
+// });
+
+// interface A {
+//   talk: () => void;
+// }
+
+// const a: A = {
+//   talk() {
+//     console.log("Talking...");
+//   },
+// };
+
+// type을 잘 모르겠을 때 unknown을 쓰는데, 나중에 타입 지정할 수 있을 때,
+// const b: unknown = a.talk(); // b는 undefined가 될 것임
+
+// b를 A 타입이라고 단언하지 말고, a의 talk를 직접 호출하는 방식으로 사용
+// a.talk();
+
+// 타입 가드
+
+// 에러 메세지를 마지막 줄만 보면 됨
+// function numOrNumArray(a: number | number[]) {
+//   if (typeof a === "number") {
+//     a.toFixed(1);
+//   } else {
+//     a.charAt(3);
+//   }
+
+//   if (typeof a === "string") {
+//     a.charAt(3);
+//   }
+
+// 절대 실행될 수 없는 코드 그래서 never라고 지정됨 never라고 하면 사용할 수 없게 됨
+
+//   if (typeof a === "boolean") {
+//     a.toString();
+//   }
+
+//   if (Array.isArray(a)) {
+//     a.concat(4);
+//   } else {
+//     a.toFixed(3);
+//   }
+// }
+
+// numOrNumArray(123);
+// numOrNumArray([1, 2, 3]);
+
+// class A {
+//   aaa() {}
+// }
+
+// class B {
+//   bbb() {}
+// }
+
+// 유효한 javascript 코드
+// 클래스간에는 instanceof로 구별한다
+// function aOrB(param: A | B) {
+//   if (param instanceof A) [param.aaa()];
+// }
+
+// aOrB(new A());
+// aOrB(new B());
+
+// 1. 타입이 서로 다르고, 속성이 다른 경우
+// type B = {
+//   type: "b";
+//   bbb: string;
+// };
+
+// type C = {
+//   type: "c";
+//   ccc: string;
+// };
+
+// type D = {
+//   type: "d";
+//   ddd: string;
+// };
+
+// typescript가 if문에 대해서 타입 구별을 되게 정확하게 해줘
+// function typeCheck(a: B | C | D) {
+//   if (a.type === "b") {
+//     a.bbb;
+//   } else if (a.type === "c") {
+//     a.ccc;
+//   } else {
+//     a.ddd;
+//   }
+// }
+
+// 2. 타입이 서로 다르고, 속성이 다른 경우
+// 보통은 값으로 구분하는 법을 더 많이 쓰긴 함
+
+// type B = { type: "b"; bbb: string };
+// type C = { type: "c"; ccc: string };
+// type D = { type: "d"; ddd: string };
+// type A = B | C | D;
+// function typeCheck(a: A) {
+// "bbb" in a는 a의 객체 안에 bbb라는 속성이 있다라는 의미
+//   if ("bbb" in a) {
+//     a.type;
+//   } else if ("ccc" in a) {
+//     a.ccc;
+//   } else {
+//     a.ddd;
+//   }
+// }
+
+// 습관들이면 좋은 것
+// 객체에 라벨을 달아두기
+// const human = { type: "human" };
+// const dog = { type: "dog" };
+// const cat = { type: "cat" };
+
+// 타입 가드의 하나
+// 커스텀 타입 가드
+// interface Cat {
+//   meow: number;
+// }
+
+// interface Dog {
+//   bow: number;
+// }
+
+// is라는 게 꼭 있어줘야지만 TypeScript가 이 if문 안에서 정확하게 구별해준다
+// function catOrDog(a: Cat | Dog): a is Dog {
+// 타입 판별을 여러분이 직접 만드세요.
+//   if ((a as Cat).meow) {
+//     return false;
+//   }
+
+//   return true;
+// }
+
+// 타입을 구분해주는 커스텀 함수를 여러분이 직접 만들 수 있어요.
+// function pet(a: Cat | Dog) {
+//   if (catOrDog(a)) {
+//     console.log(a.bow);
+//   }
+
+//   if ("meow" in a) {
+//     console.log(a.meow);
+//   }
+// }
+
+// const isRejected = (input: PromiseSettledResult<unknown>): input is PromiseRejectedResult => {
+//   return input.status === "rejected";
+// };
+// const isFulfilled = <T>(input: PromiseSettledResult<T>): input is PromiseFulfilledResult<T> => {
+//   return input.status === "fulfilled";
+// };
+
+// typescript 컴파일러 설정에 따라 에러가 달라짐
+// const promises = await Promise.allSettled([Promise.resolve("a"), Promise.resolve("b")]);
+// const errors = promises.filter(isRejected);
+
+// export {};
+
+// const x: {} = "hello";
+// const y: Object = "hi"; // {}, object 모든 타입(null, undefined 제외)
+// const xx: object = "hi"; // 이것이 실제 객체
+// const yy: object = { hello: "world" }; // object 지양, interface, type, class
+// const z: unknown = { hello: "world" }; // unknown도 모든 값을 다 받을 수 있는데, any보다는 좀 더 낫다
+// 4.8 버전에서 unknown = {} | null | undefined, unknown을 아래와 같이 if 문 안에 넣으면 변수가 모든 타입을 가리키는 얘가 된다.
+// if (z) {
+//   z;
+// } else {
+//   z;
+// }
+
+// interface A {
+//   readonly a: string; // 속성 실수로 바꾸는거 막아줄 수 있음
+//   b: string;
+// }
+
+// const aaaa: A = { a: "hello", b: "world" };
+// aaaa.a = "123";
+
+type B = "human" | "mammal" | "animal"; // 인터페이스로는 이렇게 또는이 안됨, 무조건 타입으로 써야함
+type A = { [key in B]: B }; // 맵드 타입스
+// type A = { [key: string]: string }; // 어떤 키든 간에 값이 모두 문자열이였으면 좋겠을 때, 인덱스드 시그니처 쓰기
+const aaaa: A = { human: "animal", mammal: "human", animal: "mammal" };
