@@ -415,7 +415,134 @@
 // const aaaa: A = { a: "hello", b: "world" };
 // aaaa.a = "123";
 
-type B = "human" | "mammal" | "animal"; // 인터페이스로는 이렇게 또는이 안됨, 무조건 타입으로 써야함
-type A = { [key in B]: B }; // 맵드 타입스
+// type B = "human" | "mammal" | "animal"; // 인터페이스로는 이렇게 또는이 안됨, 무조건 타입으로 써야함
+// type A = { [key in B]: B }; // 맵드 타입스
 // type A = { [key: string]: string }; // 어떤 키든 간에 값이 모두 문자열이였으면 좋겠을 때, 인덱스드 시그니처 쓰기
-const aaaa: A = { human: "animal", mammal: "human", animal: "mammal" };
+// const aaaa: A = { human: "animal", mammal: "human", animal: "mammal" };
+
+// class A {
+//   a: string = "123";
+//   b: number = 123;
+// }
+
+// class A {
+//   private a: "123";
+//   #b: number = 123;
+
+// constructor(a: string, b: number = 123) {
+//   this.a = a;
+//   this.b = b;
+// }
+
+//   method() {
+//     console.log(this.a, this.#b);
+//   }
+// }
+
+// type AA = A;
+// const a: A = new A("123"); // 클래스 이름은 instance를 가리킨다
+// const b: typeof A = A; // 클래스 자체 타입은 type of a이고,
+
+// interface A {
+//   readonly a: string;
+//   b: string;
+// }
+
+// abstract class B {
+//   private readonly a: string = "123";
+//   b: string = "world";
+//   c: string = "wow";
+
+// method() {
+//   console.log(this.a);
+//   console.log(this.b);
+//   console.log(this.c);
+// }
+
+//   abstract method(): void;
+//   method2() {
+//     return "3";
+//   }
+// }
+
+// class C extends B {
+//   method() {
+//     console.log(this.a);
+//     console.log(this.b);
+//     console.log(this.c);
+//   }
+// }
+// new C().a;
+// new C().b;
+// new C().c;
+
+// public : 클래스 내부, 인스턴스, 상속클래스
+// protected : 클래스 내부, 상속클래스,
+// private : 클래스 내부, 인스턴스,
+
+// function abc(a: number, b?: number, c?: number) {
+//   abc(1);
+//   abc(1, 2);
+//   abc(1, 2, 3);
+// }
+
+// let obj: { a: string; b?: string } = { a: "hello", b: "world" };
+// obj = { a: "hello" };
+
+// function add(x: string | number, y: string | number): string | number {
+//   return x + y;
+// }
+
+// add(1, 2); // 3
+// add("1", "2"); // "12"
+
+// function add(x: string, y: string): string;
+// function add(x: number, y: number): number;
+// function add(x: string | number, y: string | number) {
+//   return x + y;
+// }
+
+// add("1", 2);
+// add("2", 1);
+
+// function add<T extends number | string>(x: T, y: T): T {
+//   return x + y;
+// }
+
+// add(1, 2); // 3
+// add("1", "2"); // "12"
+
+// function add<T extends number, k extends string>(x: T, y: T) {
+//   return x + y;
+// }
+
+// add(1, 2);
+// add("1", "2");
+
+// function add<T extends string | number>(x: T): T {
+//   return x;
+// }
+
+// add({ a: "hello" });
+
+// string number, string | number
+
+// function add<T extends string[]>(x: T): T {
+//   return x;
+// }
+
+// add(["1", "2", "3"]);
+
+// <T extends {...}>
+// <T extends any[]>
+// <T extends (...args : any) => any>
+// <T extends abstract new (...ages : any) => any> // 생성자
+
+// const a = (b: number = 3, c: number = 5) => {
+//   return "3";
+// };
+
+// const a = (b: { children: string } = { children: "zerocho" }) => {};
+
+// const add = <T extends unknown>(x: T, y: T) => ({ x, y });
+// const result = add(1, 2);
