@@ -546,3 +546,227 @@
 
 // const add = <T extends unknown>(x: T, y: T) => ({ x, y });
 // const result = add(1, 2);
+
+// interface Array<T> {
+//   forEach(callbackfn: (value: T, index: number, array: T[]) => void, thisArg?: any): void;
+// }
+
+// const a: Array<number> = [1, 2, 3];
+// // 선언 뒤에 이름 뒤에 제네릭이 항상 같이 온다.
+
+// a.forEach((value) => {
+//   console.log(value);
+// });
+
+// ["1", "2", "3"].forEach((value) => {
+//   console.log(value);
+// });
+
+// [true, false, true].forEach((value) => {
+//   console.log(value);
+// });
+
+// ["123", 123, true].forEach((value) => {
+//   console.log(value);
+// });
+
+// function add<T>(x: T, y: T): T {
+//   return x;
+// }
+
+// add("1", 2);
+// add(1, "2");
+
+// add(1, 2);
+// add("1", "2");
+// add(true, false);
+
+// function add<T>(x: T, y: T): T {
+//   return x;
+// }
+
+// add<number>(1, 2); //type number로 지정
+// add("1", "2");
+// add(true, false);
+
+// interface Array<T> {
+//   forEach(callbackfn: (value: T, index: number, array: T[]) => void, thisArg?: any): void;
+//   map<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): U[];
+//   filter<S extends T>(predicate: (value: T, index: number, array: T[]) => value is S, thisArg?: any): S[];
+//   filter(predicate: (value: T, index: number, array: T[]) => unknown, thisArg?: any): T[];
+// }
+
+// const predicate = (value: string | number): value is string => typeof value === "string";
+// const filtered = ["1", 2, "3", 4, "5"].filter(predicate); // ["1", "3", "5"] string[]
+
+// ["1", 2].filter((value) => typeof value === "string");
+
+// const result = ["1", 2].filter<string extends string | number>((value) => typeof value === "string");
+
+// interface Arr {
+//   forEach(callback: (item: string | number) => void): void;
+// }
+// 아래 함수 형태 보고 추론
+
+// const a: Arr = [1, 2, 3];
+
+// a.forEach((item) => {
+//   console.log(item);
+// });
+
+// a.forEach((item) => {
+//   console.log(item);
+//   return "3";
+// });
+
+// const b: Arr = ["1", "2", "3"];
+
+// b.forEach((item) => {
+//   console.log(item);
+// });
+
+// b.forEach((item) => {
+//   console.log(item);
+//   return "3";
+// });
+
+// interface Arr<T> {
+//   forEach<T>(callback: (item: T, index: number) => void): void;
+// forEach(callbackfn: (value: T, index: number, array: T[]) => void, thisArg?: any): void;
+// }
+
+// const a: Arr<number> = [1, 2, 3];
+
+// a.forEach((item) => {
+//   console.log(item);
+//   item.toFixed(1);
+// });
+
+// a.forEach((item) => {
+//   console.log(item);
+//   return "3";
+// });
+
+// const b: Arr<string> = ["1", "2", "3"];
+
+// b.forEach((item) => {
+//   console.log(item);
+//   item.charAt(3);
+// });
+
+// b.forEach((item) => {
+//   console.log(item);
+//   return "3";
+// });
+
+// interface Arr<T> {
+//   forEach(callback: (item: T, index: number) => void): void;
+//   map<S>(callback: (v: T, i: number) => S): S[]; // s가 다 문자가 된다. string 배열이다.
+// map<U>(callbackfn: (value: T) => U): U[];
+// }
+// b가 정확하게 number로 추측되게 하려면?
+// const a: Arr<number> = {
+//   forEach(callback) {
+//     [1, 2, 3].forEach(callback);
+//   },
+//   map(callback) {
+//     return [1, 2, 3].map(callback);
+//   },
+// };
+
+// b는 number[]
+// const b = a.map((v, i) => v + 1); // [2, 3, 4]
+
+// c는 string[]
+// const c = a.map((v, i) => v.toString()); // ["1", "2", "3"]
+
+// const d = a.map((v, i) => v % 2 === 0); // 여기가 boolean으로 나오면, map<S>(callback: (v: T) => S): S[];  이걸 잘 만든거다 무슨 말일까?
+
+// const e: Arr<string> = ["1", "2", "3"];
+// const f = e.map((v) => +v);
+
+// interface Arr<T> {
+//   forEach(callback: (item: T, index: number) => void): void;
+//   map<S>(callback: (v: T, i: number) => S): S[];
+//   filter<S extends T>(callback: (v: T) => v is S): S[]; // S extends T 추가 , T가 S로 좁혀질 수 있어
+// }
+
+// const a: Arr<number> = [1, 2, 3];
+
+// const b = a.filter((v): v is number => v % 2 === 0); // [2] number[]
+
+// const c: Arr<number | string> = [1, "2", 3, "4", 5];
+// const d = c.filter((v) => typeof v === "string"); // ["2", "4"] string
+// const e = c.filter((v) => typeof v === "number"); // [1,3,5] number[]
+
+// function a(x: string): number {
+//   return +x;
+// }
+
+// a("1"); // 1
+
+// type B = (x: string) => number | string;
+// const b: B = a; //
+
+// declare function add(x: number, y: number, z?: number): number;
+// declare function add(x: number, y: number): number;
+// declare function add(x: string, y: string): string;
+// declare function add(x: number, y: number, z: number): number;
+
+// add(1, 2);
+// add(2, 3, 4);
+// add("1", "2");
+
+// interface Add {
+//   (x: number, y: number): number;
+//   (x: string, y: string): string;
+// }
+
+// const add: Add = (x: any, y: any) => x + y;
+
+// class A {
+//   add(x: number, y: number): number;
+//   add(x: string, y: string): string;
+//   add(x: any, y: any) {
+//     return x + y;
+//   }
+// }
+
+// const c = new A().add("1", "2");
+
+interface Axios {
+  get(): void;
+}
+
+interface CustomError {
+  name: string;
+  messsage: string;
+  stack?: string;
+  response?: {
+    data: any;
+  };
+}
+
+declare const axios: Axios;
+
+// async () => {
+//   try {
+//     await axios.get();
+//   } catch (err: unknown) {
+//     const customError = err as CustomError;
+//     console.error(customError.response?.data);
+//     customError.response?.data;
+//     // 타입스크립트는 일회성, 에러를 지정해도, 다시 지정해줘야 한다.
+//   }
+// };
+
+async () => {
+  try {
+    await axios.get();
+  } catch (err) {
+    if (err instanceof CustomError) {
+      console.error(err.response?.data);
+      err.response?.data;
+    }
+  }
+};
