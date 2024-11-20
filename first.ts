@@ -734,20 +734,20 @@
 
 // const c = new A().add("1", "2");
 
-interface Axios {
-  get(): void;
-}
+// interface Axios {
+//   get(): void;
+// }
 
-interface CustomError {
-  name: string;
-  messsage: string;
-  stack?: string;
-  response?: {
-    data: any;
-  };
-}
+// interface CustomError {
+//   name: string;
+//   messsage: string;
+//   stack?: string;
+//   response?: {
+//     data: any;
+//   };
+// }
 
-declare const axios: Axios;
+// declare const axios: Axios;
 
 // async () => {
 //   try {
@@ -756,17 +756,17 @@ declare const axios: Axios;
 //     const customError = err as CustomError;
 //     console.error(customError.response?.data);
 //     customError.response?.data;
-//     // 타입스크립트는 일회성, 에러를 지정해도, 다시 지정해줘야 한다.
+// 타입스크립트는 일회성, 에러를 지정해도, 다시 지정해줘야 한다.
 //   }
 // };
 
-async () => {
-  try {
-    await axios.get();
-  } catch (err) {
-    if (err instanceof CustomError) {
-      console.error(err.response?.data);
-      err.response?.data;
-    }
-  }
-};
+// async () => {
+//   try {
+//     await axios.get();
+//   } catch (err) {
+//     if (err instanceof CustomError) {
+//       console.error(err.response?.data);
+//       err.response?.data;
+//     }
+//   }
+// };
