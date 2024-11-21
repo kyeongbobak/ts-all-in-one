@@ -770,3 +770,102 @@
 //     }
 //   }
 // };
+
+// interface Profile {
+//   name: string;
+//   age: number;
+//   married: boolean;
+// }
+
+// interface NewProfile {
+//   name: string;
+//   age: number;
+// }
+
+// 위와 같이 필드가 중복되는 경우 utility types를 통해 해결
+
+// const zerocho: Profile = {
+//   name: "zerocho",
+//   age: 29,
+//   married: false,
+// };
+
+// const newZeroCho: Profile = {
+//   name: "zerocho",
+//   age: 29,
+// };
+
+interface Profile {
+  name: string;
+  age: number;
+  married: boolean;
+}
+
+// const zerocho: Profile = {
+//   name: "zerocho",
+//   age: 29,
+//   married: false,
+// };
+
+// const newZeroCho: Parthial<Profile> = {
+//   name: "zerocho",
+//   age: 29,
+// };
+
+type Name = Profile["name"];
+
+// const newZeroCho: Pick<Profile, "name" | "age"> = {
+//   name: "zerocho",
+//   age: 29,
+// };
+
+// type P<T, S extends keyof T> = {
+//   [key in f S]: T[Key];
+// };
+
+// const newZeroCho: Omit<Profile, "married"> = {
+//   name: "zerocho",
+//   age: 29,
+// };
+
+// const zerocho: Profile = {
+//   name: "zerocho",
+//   age: 29,
+//   married: false,
+// };
+
+// const newZeroCho: P<Profile, "name" | "age"> = {
+//   name: "zerocho",
+//   age: 29,
+// };
+
+interface Profile {
+  name: string;
+  age: number;
+  married: boolean;
+}
+
+// type Name = Profile["name"];
+
+// const zerocho: Profile = {
+//   name: "zerocho",
+//   age: 29,
+//   married: false,
+// };
+
+type Animal = "Cat" | "Dog" | "Human";
+type Mammal = Exclude<Animal, "Human">;
+type Human = Extract<Animal, "Cat" | "Dog">;
+
+// type A = Exclude<keyof Profile, "married">;
+
+type O<T, S extends keyof any> = Pick<T, Exclude<keyof T, S>>;
+const newZeroCho: O<Profile, "married"> = {
+  name: "zerocho",
+  age: 29,
+};
+
+// const newZeroCho: Omit<Profile, Exclude<keyof Profile, "married">> = {
+//   name: "zerocho",
+//   age: 29,
+// };
