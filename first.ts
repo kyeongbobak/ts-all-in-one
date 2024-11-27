@@ -853,19 +853,43 @@ interface Profile {
 //   married: false,
 // };
 
-type Animal = "Cat" | "Dog" | "Human";
-type Mammal = Exclude<Animal, "Human">;
-type Human = Extract<Animal, "Cat" | "Dog">;
+// type Animal = "Cat" | "Dog" | "Human";
+// type Mammal = Exclude<Animal, "Human">;
+// type Human = Extract<Animal, "Cat" | "Dog">;
 
 // type A = Exclude<keyof Profile, "married">;
 
-type O<T, S extends keyof any> = Pick<T, Exclude<keyof T, S>>;
-const newZeroCho: O<Profile, "married"> = {
-  name: "zerocho",
-  age: 29,
-};
+// type O<T, S extends keyof any> = Pick<T, Exclude<keyof T, S>>;
+// const newZeroCho: O<Profile, "married"> = {
+//   name: "zerocho",
+//   age: 29,
+// };
 
 // const newZeroCho: Omit<Profile, Exclude<keyof Profile, "married">> = {
 //   name: "zerocho",
 //   age: 29,
 // };
+
+interface Profile {
+  name: string;
+  age: number;
+  married: boolean;
+}
+
+const zerocho: Profile = {
+  name: "zerocho",
+  age: 29,
+  married: false,
+};
+
+type A = Exclude<keyof Profile, "married">; // 빼고 싶은 키값을 빼는 것
+
+// S extends keyof any : S는 string | number | symbol
+// 제한 조건 많이 알아두기
+
+type O<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
+
+const newZeroCho: Pick<Profile, Exclude<keyof Profile, "married">> = {
+  name: "zerocho",
+  age: 29,
+};
